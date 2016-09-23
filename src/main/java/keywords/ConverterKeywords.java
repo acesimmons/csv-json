@@ -4,16 +4,30 @@ import edu.jsu.mcis.*;
 import org.json.simple.parser.*;
 
 public class ConverterKeywords {
+	
+	private Converter convert;
+	
+	public ConverterKeywords(){
+		convert = new Converter();
+	}
     
     public String convertToJson(String csv) {
-        return "";
+        return Converter.csvToJson(csv);
     }
     
     public String convertToCsv(String json) {
-        return "";
+        return Converter.jsonToCsv(json);
     }
     
-    public boolean jsonStringsAreEqual(String s, String t) {
-        return false;
-    }
+   public boolean jsonStringsAreEqual(String s, String t) {        
+    JSONParser parser = new JSONParser();
+    try {
+        Object sObj = parser.parse(s);
+        Object tObj = parser.parse(t);
+        return sObj.equals(tObj);
+		}
+		catch(ParseException e) {
+			return false;
+		}
+	}
 }

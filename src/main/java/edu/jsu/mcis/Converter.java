@@ -36,15 +36,45 @@ public class Converter {
             ]
         }  
     */
+	
     
     @SuppressWarnings("unchecked")
     public static String csvToJson(String csvString) {
-        return "";
+        JSONObject jsonObj = new JSONObject();
+		JSONArray colHeaders = new JSONArray();
+		JSONArray rowHeaders = new JSONArray();
+		JSONArray data = new JSONArray();
+		CSVParser csvParser = new CSVParser();
+		BufferedReader read = new BufferedReader(new StringReader(csvString));
+		
+		colHeaders.add("Total");
+		colHeaders.add("Assignment1");
+		colHeaders.add("Assignment2");
+		colHeaders.add("Exam1");
+		jsonObj.put("colHearders", colHeaders);
+		jsonObj.put("rowHeaders", rowHeaders);
+		jsonObj.put("data", data);
+		
+	try{
+		String line = read.readLine();
+		while((line = read.readLine()) != null){
+			String[] info = csvParser.parseLine(line);
+			rowHeaders.add(info[0]);
+			JSONArray rows = new JSONArray();
+			rows.add(new Long(info[1]));
+			rows.add(new Long(info[2]));
+			rows.add(new Long(info[3]));
+			rows.add(new Long(info[4]));
+			data.add(rows);
+			}
+		}catch(IOException ioe){}
+		
+		return jsonObj.toString();
     }
     
-    public static String jsonToCsv(String jsonString) {
+    public static String jsonToCsv(String jsonString){
         return "";
-    }
+    }	
 }
 
 
